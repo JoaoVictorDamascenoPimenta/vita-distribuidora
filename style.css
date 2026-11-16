@@ -242,16 +242,47 @@ body::before {
 .steps span { color: var(--muted); font-size: 15px; }
 
 /* ---------- Atendimento ---------- */
-.depts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.dept { background: var(--soft); border-radius: 14px; padding: 22px; min-width: 0; }
+/* Centraliza o título e o texto de apoio da seção */
+#atendimento .head {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.depts { 
+  display: grid; 
+  /* Aumentado a largura mínima (320px) e máxima (450px) para esticar os cards */
+  grid-template-columns: repeat(auto-fit, minmax(490px, 530px)); 
+  gap: 14px; 
+  justify-content: center; /* Centraliza os dois cards na tela */
+}
+
+.dept { 
+  background: var(--soft); 
+  border-radius: 14px; 
+  padding: 28px; /* Aumentado o espaçamento interno para dar mais destaque */
+  min-width: 0; 
+}
+
 .block.soft .dept { background: var(--bg); }
-.dept h3 { font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-dark); }
-.dept p { margin-top: 6px; color: var(--muted); font-size: 15px; }
+
+.dept h3 { 
+  font-size: 15px; 
+  letter-spacing: 0.1em; 
+  text-transform: uppercase; 
+  color: var(--blue-dark); 
+}
+
+.dept p { 
+  margin-top: 6px; 
+  color: var(--muted); 
+  font-size: 15px; 
+}
+
 .dept .tel {
   margin-top: 12px;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 20px;
+  font-size: 40px;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
 }
@@ -444,4 +475,19 @@ textarea { min-height: 96px; resize: vertical; }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.dept .tel {
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none; /* Remove o sublinhado do link */
+  display: inline-block;
+}
+
+.dept .tel:hover {
+  color: var(--blue-dark, #0056b3); /* Dá um leve destaque ao passar o mouse */
 }
