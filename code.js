@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "Quantidade: " + f.qtd.value +
         (f.obs.value ? "\nObservações: " + f.obs.value : "");
       
-      window.open("https://wa.me556199589-0351/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
     });
   }
 });
