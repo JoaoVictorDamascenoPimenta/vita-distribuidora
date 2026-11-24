@@ -174,7 +174,69 @@ body::before {
 .values span { color: var(--muted); font-size: 15px; }
 
 /* ---------- Produtos ---------- */
-.products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+/* Carrossel: 4 cards visíveis no computador, o resto rola para o lado */
+.carousel { position: relative; }
+.products {
+  --visible: 4;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-block: 8px 12px; /* espaço para a sombra/elevação do hover */
+}
+.products::-webkit-scrollbar { display: none; }
+.products > .product-wrap {
+  flex: 0 0 calc((100% - (var(--visible) - 1) * 20px) / var(--visible));
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+}
+.product-wrap > .product { flex: 1; }
+
+/* Ícone do WhatsApp no canto dos cards e da foto do produto */
+.wpp-corner {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #25d366;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.wpp-corner:hover { transform: scale(1.1); background: #20ba5a; }
+.wpp-corner svg { width: 22px; height: 22px; display: block; }
+.product-wrap:hover .product { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); }
+.product-wrap:hover .wpp-corner { top: 7px; }
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--blue-dark);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: grid;
+  place-items: center;
+  padding: 0 0 4px;
+}
+.carousel-btn.prev { left: -22px; }
+.carousel-btn.next { right: -22px; }
+.carousel-btn:hover { background: var(--soft); }
+.carousel-btn:disabled { opacity: 0; pointer-events: none; }
 .product {
   background: var(--bg);
   border: 1px solid var(--line);
@@ -245,13 +307,14 @@ body::before {
 /* Centraliza o título e o texto de apoio da seção */
 #atendimento .head {
   text-align: center;
+  margin-inline: auto;
   margin-bottom: 32px;
 }
 
 .depts { 
   display: grid; 
   /* Aumentado a largura mínima (320px) e máxima (450px) para esticar os cards */
-  grid-template-columns: repeat(auto-fit, minmax(490px, 530px)); 
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 530px));
   gap: 14px; 
   justify-content: center; /* Centraliza os dois cards na tela */
 }
@@ -321,7 +384,9 @@ textarea { min-height: 96px; resize: vertical; }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 960px) {
-  .products { grid-template-columns: repeat(2, 1fr); }
+  .products { --visible: 2; }
+  .carousel-btn.prev { left: -8px; }
+  .carousel-btn.next { right: -8px; }
 }
 
 @media (max-width: 820px) {
@@ -344,7 +409,7 @@ textarea { min-height: 96px; resize: vertical; }
 }
 
 @media (max-width: 520px) {
-  .products { grid-template-columns: 1fr; }
+  .products { --visible: 1.15; } /* mostra a pontinha do próximo card */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -490,4 +555,25 @@ textarea { min-height: 96px; resize: vertical; }
 
 .dept .tel:hover {
   color: var(--blue-dark, #0056b3); /* Dá um leve destaque ao passar o mouse */
+}
+
+
+
+/* ---------- Cartões de produtos clicáveis ---------- */
+
+a.product {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+a.product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+a.product:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
 }
